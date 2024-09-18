@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // For icons
+import { FontAwesome } from '@expo/vector-icons'; 
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebaseConfig'; // Ensure this path is correct
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebaseConfig'; 
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
@@ -20,11 +20,32 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert("Success", "Logged in successfully!");
-      navigation.navigate('HomePage'); // Navigate to HomePage
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+
+      // Fetch user role from Firestore (assuming roles are stored in a collection 'users')
+      const userDocRef = doc(db, 'users', userId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const userRole = userData.accountType; 
+
+        Alert.alert('Success', 'Logged in successfully!');
+
+        
+        if (userRole === 'teacher') {
+          navigation.navigate('TeacherHomePage'); // Navigate to Teacher's home page
+        } else if (userRole === 'student') {
+          navigation.navigate('StudentHomePage'); // Navigate to Student's home page
+        } else {
+          Alert.alert('Error', 'Invalid user role.');
+        }
+      } else {
+        Alert.alert('Error', 'User data not found.');
+      }
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert('Error', error.message);
     }
   };
 
@@ -32,7 +53,7 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Image
-          source={require('../assets/login.png')} // Ensure this path is correct
+          source={require('../assets/login.png')} 
           style={styles.image}
         />
         <Text style={styles.text}>Login</Text>
@@ -73,18 +94,6 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.orText}>or</Text>
           <View style={styles.hr} />
         </View>
-
-        {/* Uncomment and implement social login functionality if needed */}
-        {/* <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome name="google" size={24} color="#ffffff" />
-            <Text style={styles.socialButtonText}>Login with Google</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome name="facebook" size={24} color="#ffffff" />
-            <Text style={styles.socialButtonText}>Login with Facebook</Text>
-          </TouchableOpacity>
-        </View> */}
 
         <TouchableOpacity
           onPress={() => navigation.navigate('SignUpScreen')}
@@ -170,22 +179,5 @@ const styles = StyleSheet.create({
     color: '#B0B0C3',
     fontFamily: 'Poppins_400Regular',
     marginHorizontal: 10,
-  },
-  socialButtonsContainer: {
-    width: '100%',
-    marginVertical: 15,
-  },
-  socialButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#3E3E55',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 10,
-  },
-  socialButtonText: {
-    color: '#ffffff',
-    fontFamily: 'Poppins_400Regular',
-    marginLeft: 10,
   },
 });
