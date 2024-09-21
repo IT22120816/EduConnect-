@@ -35,9 +35,9 @@ export default function LoginScreen({ navigation }) {
 
         
         if (userRole === 'teacher') {
-          navigation.navigate('TeacherHomePage'); // Navigate to Teacher's home page
+          navigation.navigate('TeacherHomePage'); 
         } else if (userRole === 'student') {
-          navigation.navigate('StudentHomePage'); // Navigate to Student's home page
+          navigation.navigate('StudentHomePage'); 
         } else {
           Alert.alert('Error', 'Invalid user role.');
         }

@@ -7,10 +7,10 @@ export default function LandingPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('OnboardScreen'); // Navigate to OnboardScreen after 3 seconds
-    }, 3000); // 3000 milliseconds = 3 seconds
+      navigation.navigate('OnboardScreen'); 
+    }, 3000); 
 
-    return () => clearTimeout(timer); // Clear timer if the component unmounts
+    return () => clearTimeout(timer); 
   }, [navigation]);
 
   return (

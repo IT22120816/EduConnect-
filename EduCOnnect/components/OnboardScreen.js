@@ -10,20 +10,20 @@ export default function OnboardScreen() {
     Poppins_700Bold,
   });
 
-  const navigation = useNavigation(); // Initialize navigation
+  const navigation = useNavigation(); 
 
   if (!fontsLoaded) {
-    return null; // You can return a loading spinner or other UI while fonts are loading
+    return null; 
   }
 
   // Navigate to the Login page
   const handleLoginPress = () => {
-    navigation.navigate('LoginScreen'); // Change 'LoginScreen' to the actual name of your login screen
+    navigation.navigate('LoginScreen'); 
   };
 
   // Navigate to the Sign Up page
   const handleSignUpPress = () => {
-    navigation.navigate('SignUpScreen'); // Change 'SignUpScreen' to the actual name of your sign-up screen
+    navigation.navigate('SignUpScreen'); 
   };
 
   return (
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100, // Adjust margin to balance the layout
+    marginBottom: 100, 
   },
   image: {
     width: 286,
