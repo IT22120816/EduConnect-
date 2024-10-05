@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }) {
 
         
         if (userRole === 'teacher') {
-          navigation.navigate('TeacherHomePage'); 
+          navigation.navigate('TeacherDashboard'); 
         } else if (userRole === 'student') {
           navigation.navigate('StudentHomePage'); 
         } else {

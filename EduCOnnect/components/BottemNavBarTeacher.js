@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
+
 export default function BottomNavBar() {
   const navigation = useNavigation();
 
@@ -37,7 +38,7 @@ export default function BottomNavBar() {
       {/* Home Button */}
       <TouchableOpacity
         style={styles.navButton}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('TeacherDashboard')}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
       >
@@ -50,7 +51,7 @@ export default function BottomNavBar() {
       {/* Resources Button */}
       <TouchableOpacity
         style={styles.navButton}
-        onPress={() => navigation.navigate('Resources')}
+        onPress={() => navigation.navigate('PdfUploadPage')}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
       >
@@ -63,12 +64,12 @@ export default function BottomNavBar() {
       {/* Downloads Button */}
       <TouchableOpacity
         style={styles.navButton}
-        onPress={() => navigation.navigate('Downloads')}
+        onPress={() => navigation.navigate('VideoUpload')}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
       >
         <Animated.View style={[styles.iconContainer, animatedStyle]}>
-          <AntDesign name="download" size={28} color="#fff" />
+          <AntDesign name="upload" size={28} color="#fff" />
           
         </Animated.View>
       </TouchableOpacity>
